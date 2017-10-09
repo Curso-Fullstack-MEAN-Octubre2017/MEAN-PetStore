@@ -23,6 +23,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//require("./tests/customer_crud_tests.js");
+
 //// Nuevas Rutas van aqui:
 //const customers = require('./routes/customers')(router);
 //const pets = require('./routes/pets')(router);
