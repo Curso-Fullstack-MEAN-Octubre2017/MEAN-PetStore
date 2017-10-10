@@ -9,8 +9,7 @@ module.exports = (router) => {
 		var search = {};
 		if(req.query.searchTerm) {
 			var regexp = new RegExp(req.query.searchTerm, "i")
-			search.firstName = regexp;
-			search.lastName = regexp;
+			search.$or = [{firstName: regexp}, {lastName: regexp}];
 		}
 		console.log("Search customers:", search);
 		Customer.find(search, (err, customers) => {
