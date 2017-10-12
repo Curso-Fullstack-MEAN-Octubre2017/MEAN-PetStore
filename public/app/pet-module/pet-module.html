@@ -11,7 +11,9 @@
 		race: <input type="text" name="race" ng-model="pet.race" placeholder="race" /><br />
 		description: <input type="text" name="description" ng-model="pet.description" placeholder="description" /><br />
 		photoUrl: <input type="text" name="photoUrl" ng-model="pet.photoUrl" placeholder="photoUrl" /><br />
-		owner: <input type="text" name="owner" ng-model="pet.owner" placeholder="owner" /><br />
+		owner: <select ng-model="owner" ng-options="item as item.label for item in ownersList">
+    			<option value="">Select Owner</option>
+			   </select><br />
 
 		<input type="button" ng-click="remove()" value="Delete"/>
 		<input type="button" ng-click="submit()" value="Save"/>

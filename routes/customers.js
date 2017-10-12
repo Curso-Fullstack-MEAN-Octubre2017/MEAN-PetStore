@@ -1,4 +1,5 @@
 const Customer = require('../models/customer');
+const Utils = require("../utils/utils.js");
 
 module.exports = (router) => {
 
@@ -14,12 +15,28 @@ module.exports = (router) => {
 		console.log("Search customers:", search);
 		Customer.find(search, (err, customers) => {
 			if (err) {
-				console.log(err);
+				console.error(err);
 				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
 			} else {
 				res.json(customers);
 			}
 		}).sort({'_id' : -1});
+	});
+	
+	/**
+	 * As LabelValue
+	 */
+	router.get('/customersAsList', function(req, res, next) {
+		console.log("/customersList")
+		Customer.find({}, {firstName: 0}, (err, customers) => {
+			if (err) {
+				console.error(err);
+				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
+			} else {
+				res.json(Utils.asIdLabelList(customers, "fullNameSort"));
+			}
+		})
+		.sort({'lastName' : -1});
 	});
 
 
@@ -29,7 +46,7 @@ module.exports = (router) => {
 	router.route('/customers/:id').get(function(req, res) {
 		Customer.findById(req.params.id, function(err, customer) {
 			if (err) {
-				console.log(err);
+				console.error(err);
 				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
 			} else {
 				res.json(customer);
@@ -45,7 +62,7 @@ module.exports = (router) => {
 		const customer = new Customer(req.body);
 		customer.save((err) => {
 			if (err) {
-				console.log(err);
+				console.error(err);
 				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
 			} else {
 				res.json(customer);
@@ -70,7 +87,7 @@ module.exports = (router) => {
 			// save
 			customer.save(function(err) {
 				if (err) {
-					console.log(err);
+					console.error(err);
 					res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
 				} else {
 					res.json(customer);
@@ -86,7 +103,7 @@ module.exports = (router) => {
 		console.log("/customers/" + req.params.id);
 		Customer.findByIdAndRemove(req.params.id, function(err, customer) {
 			if (err) {
-				console.log(err);
+				console.error(err);
 				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
 			} else {
 				res.sendStatus(200);//OK

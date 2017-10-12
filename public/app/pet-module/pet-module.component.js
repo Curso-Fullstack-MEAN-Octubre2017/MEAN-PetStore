@@ -18,6 +18,9 @@ angular.module('petModule')
         		$scope.pet = response.data;
         	});
     	}
+    	$http.get("/api/customersAsList").then(function(response) {
+    		$scope.ownersList = response.data;
+    	});
     	
     	$scope.submit = function() {
     		console.log("Sumit", $scope.pet);

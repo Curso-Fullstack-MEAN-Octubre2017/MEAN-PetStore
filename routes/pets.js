@@ -14,7 +14,7 @@ module.exports = (router) => {
 		console.log("Search pets:", search);
 		Pet.find(search, (err, pets) => {
 			if (err) {
-				console.log(err);
+				console.error(err);
 				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
 			} else {
 				res.json(pets);
@@ -29,7 +29,7 @@ module.exports = (router) => {
 	router.route('/pets/:id').get(function(req, res) {
 		Pet.findById(req.params.id, function(err, pet) {
 			if (err) {
-				console.log(err);
+				console.error(err);
 				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
 			} else {
 				// hidratar el customer
@@ -50,7 +50,7 @@ module.exports = (router) => {
 		console.log(pet);
 		pet.save((err) => {
 			if (err) {
-				console.log(err);
+				console.error(err);
 				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
 			} else {
 				res.json(pet);
@@ -75,7 +75,7 @@ module.exports = (router) => {
 			// save
 			pet.save(function(err) {
 				if (err) {
-					console.log(err);
+					console.error(err);
 					res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
 				} else {
 					res.json(pet);
@@ -91,7 +91,7 @@ module.exports = (router) => {
 		console.log("/pets/" + req.params.id);
 		Pet.findByIdAndRemove(req.params.id, function(err, pet) {
 			if (err) {
-				console.log(err);
+				console.error(err);
 				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
 			} else {
 				res.sendStatus(200);//OK
