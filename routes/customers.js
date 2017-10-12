@@ -1,5 +1,6 @@
 const Customer = require('../models/customer');
 const Utils = require("../utils/utils.js");
+const Validators = require("../public/app/validation/validators.js");
 
 module.exports = (router) => {
 
@@ -58,8 +59,11 @@ module.exports = (router) => {
 	 * Insert
 	 */
 	router.post('/customers', (req, res, next) => {
-		//TODO añadir validacion
 		const customer = new Customer(req.body);
+		const validationErrors = Validators.validateCustomer(customer);
+		if(validationErrors) {
+			return res.status(400).send(validationErrors);
+		}
 		customer.save((err) => {
 			if (err) {
 				console.error(err);
@@ -82,6 +86,11 @@ module.exports = (router) => {
 			// rellenamos los datos que vienen en la peticion
 			for(prop in req.body){
 				customer[prop] = req.body[prop];
+			}
+			
+			const validationErrors = Validators.validateCustomer(customer);
+			if(validationErrors) {
+				return res.status(400).send(validationErrors);
 			}
 
 			// save

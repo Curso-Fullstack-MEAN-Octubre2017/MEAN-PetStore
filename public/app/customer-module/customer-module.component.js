@@ -21,6 +21,10 @@ angular.module('customerModule')
     	
     	$scope.submit = function() {
     		console.log("Sumit", $scope.customer);
+    		const validationErrors = Validators.validateCustomer($scope.customer);
+    		if(validationErrors) {
+    			return alert(JSON.stringify(validationErrors));
+    		}    		
     		var isNew = !$scope.customer._id;
     		var saveOrUpdate = isNew? $http.post : $http.put;
     		var url = "/api/customers" + (isNew? "" : "/" + $scope.customer._id);
