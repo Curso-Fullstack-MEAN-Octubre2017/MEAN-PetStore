@@ -3,6 +3,7 @@
 angular.module('petStore', [
     'ngResource',
     'ngRoute',
+    'ngQuickDate',
     'customerListModule',
     'customerModule',
     'petListModule',
