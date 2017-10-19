@@ -36,6 +36,6 @@ const Validators = {
 	},
 }
 
-if (module && module.exports) { // estamos en el servidor
+if (typeof module !== "undefined" && module.exports) { // estamos en el servidor
 	module.exports = Validators;
 }
