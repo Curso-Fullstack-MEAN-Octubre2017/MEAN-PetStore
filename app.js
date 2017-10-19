@@ -24,6 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //require("./tests/customer_crud_tests.js");
+//require("./tests/aggregate_test.js");
 
 //// Nuevas Rutas van aqui:
 //const customers = require('./routes/customers')(router);
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', require('./routes/customers')(router));
 app.use('/api', require('./routes/pets')(router));
+app.use('/api', require('./routes/appointments'));
 
 //Front End: SPA with Angular + HTML5 urls
 app.all("*", (req, res) => {

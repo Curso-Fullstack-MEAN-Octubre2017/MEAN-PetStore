@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Customer = mongoose.model('Customer');
 
 mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
@@ -12,7 +11,7 @@ const petSchema = new Schema({
     race: {type: String, required: true},
     description: {type: String},
     photoUrl: {type: String, required: true},
-    ownerId: {type: Schema.ObjectId, ref: "Customer", required: true}
+    owner: {type: Schema.ObjectId, ref: "Customer", required: true}
 });
 
 module.exports = mongoose.model('Pet', petSchema);
