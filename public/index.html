@@ -14,6 +14,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-resource.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/locale/es.js"></script>
 	
 	<script src="/javascripts/ng-quick-date/ng-quick-date.min.js"></script>
 	<link rel="stylesheet" href="/javascripts/ng-quick-date/ng-quick-date.css">
@@ -28,11 +31,14 @@
 	<script src="/app/customer-module/customer-module.component.js"></script>
 	<script src="/app/petList-module/petList-module.component.js"></script>
 	<script src="/app/pet-module/pet-module.component.js"></script>
-	</head>
+	<script src="/app/appointments-calendar/appointments-calendar.component.js"></script>
+	
+</head>
 <body>
 	<a href="/">Home</a><br />
 	<a ng-href='customers'>Customer List</a> | <a ng-href='customers/new'>New Customer</a> |
-    <a ng-href='pets'>Pet List</a> | <a ng-href='pets/new'>New Pet</a>	
+    <a ng-href='pets'>Pet List</a> | <a ng-href='pets/new'>New Pet</a>	|
+    <a ng-href="appointments-calendar">Calendario</a>
     
 	<div>
 		<div ng-view></div>

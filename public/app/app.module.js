@@ -8,4 +8,5 @@ angular.module('petStore', [
     'customerModule',
     'petListModule',
     'petModule',
+    'appointmentsCalendar',
 ]);

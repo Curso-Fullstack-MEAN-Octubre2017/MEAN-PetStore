@@ -1,0 +1,57 @@
+<div>This is the calendar</div>
+
+<div class="calendar">
+	<div class="navigation">
+		<div class="prev"><a href="appointments-calendar/{{prevMonth | date : 'yyyyMMdd'}}"><<</a></div>
+		<div class="current">{{currentMonth | date : 'MMMM yyyy'}}</div>
+		<div class="next"><a href="appointments-calendar/{{nextMonth | date : 'yyyyMMdd'}}">>></a></div>
+	</div>
+	<div class="header row">
+		<div class="column monday">Lunes</div>
+		<div class="column tuesday">Martes</div>
+		<div class="column wednesday">Miercoles</div>
+		<div class="column thursday">Jueves</div>
+		<div class="column friday">Viernes</div>
+		<div class="column saturday">Sabado</div>
+		<div class="column sunday">Domingo</div>
+	</div>
+	<div class="calendar_body">
+		<div class="column {{cell.date | date:'EEEE' | lowercase}}" ng-repeat="cell in cells">
+			{{cell.date | date:'dd-MM-yyyy'}} <br />
+			{{cell.appointmentsCount}}
+		</div>
+	</div>	
+</div>
+
+
+<style>
+.calendar {
+	width: 750px;
+}
+
+.calendar .navigation {
+  display: flex;
+}
+
+.calendar .navigation .current {
+  flex: 3;
+  text-align: center;
+}
+
+.calendar .row {
+
+}
+.calendar .header{
+
+}
+
+.calendar .column {
+	width: 13.50%;
+	display: inline-block;
+}
+
+.calendar_body .column {
+	/* height: 20px;*/
+	border: 1px solid red;
+}
+</style>
