@@ -16,7 +16,7 @@
 		<div class="column sunday">Domingo</div>
 	</div>
 	<div class="calendar_body">
-		<div class="column {{cell.date | date:'EEEE' | lowercase}}" ng-repeat="cell in cells">
+		<div class="column {{cell.date | date:'EEEE' | lowercase}}" ng-repeat="cell in cells" ng-click="openDayAppointments(cell.date)">
 			{{cell.date | date:'dd-MM-yyyy'}} <br />
 			{{cell.appointmentsCount}}
 		</div>

@@ -11,9 +11,6 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/petStore', { useMongoClient: true });
 
 var app = express();
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -30,13 +27,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 //const customers = require('./routes/customers')(router);
 //const pets = require('./routes/pets')(router);
 
-app.use('/api', require('./routes/customers')(router));
-app.use('/api', require('./routes/pets')(router));
+app.use('/api', require('./routes/customers'));
+app.use('/api', require('./routes/pets'));
 app.use('/api', require('./routes/appointments'));
 
 //Front End: SPA with Angular + HTML5 urls
 app.all("*", (req, res) => {
-res.sendFile(path.resolve("public/index.html"));
+	res.sendFile(path.resolve("public/index.html"));
 })
 
 // catch 404 and forward to error handler
