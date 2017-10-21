@@ -1,103 +1,78 @@
-const Pet = require('../models/pet');
-const Customer = require('../models/customer');
+const Pet = require('../models/pet.js');
+const Customer = require('../models/customer.js');
 
-module.exports = (router) => {
+const PetsManager = require('../managers/pets-manager.js');
+const Utils = require("../utils/utils.js");
+const Validators = require("../public/app/validation/validators.js");
 
-	/**
-	 * FindAll
-	 */
-	router.get('/pets', function(req, res, next) {
-		var search = {};
-		if(req.query.searchTerm) {
-			search.name = new RegExp(req.query.searchTerm, "i");
-		}
-		console.log("Search pets:", search);
-		Pet.find(search, (err, pets) => {
-			if (err) {
-				console.error(err);
-				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
-			} else {
-				res.json(pets);
-			}
-		}).sort({'_id' : -1});
-	});
+const successCallback = function(res) { return function(result) { res.json(result) }}
+const failCallback = function(res){ return function(err) {
+	console.error(err);
+	res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
+}};
 
+var api = require('express').Router();
+module.exports = api;
 
-	/**
-	 * Get one
-	 */
-	router.route('/pets/:id').get(function(req, res) {
-		Pet.findById(req.params.id, function(err, pet) {
-			if (err) {
-				console.error(err);
-				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
-			} else {
-				// hidratar el customer
-				// Customer.populate(pet, {path : "owner"}, (err, client) => {
-					res.json(pet);
-				//})
-
-			}
-		});
-	});
-
-	/**
-	 * Insert
-	 */
-	router.post('/pets', (req, res, next) => {
-		//TODO añadir validacion
-		const pet = new Pet(req.body);
-		console.log(pet);
-		pet.save((err) => {
-			if (err) {
-				console.error(err);
-				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
-			} else {
-				res.json(pet);
-			}
-		})
-	});
+/**
+ * FindAll
+ */
+api.get('/pets', function(req, res, next) {
+	var search = {};
+	if(req.query.searchTerm) {
+		var regexp = new RegExp(req.query.searchTerm, "i")
+		search.$or = [{firstName: regexp}, {lastName: regexp}];
+	}
+	console.log("Search pets:", search);
 	
-	/**
-	 * Update
-	 */
-	router.put('/pets/:id', (req, res, next) => {
-		Pet.findOne({_id : req.params.id }, function(err, pet) {
-			if (err) {
-				return res.send(err);
-			}
-			
-			// rellenamos los datos que vienen en la peticion
-			for(prop in req.body){
-				pet[prop] = req.body[prop];
-			}
+	PetsManager.searchPets(search)
+		.then(successCallback(res),failCallback(res));
+});
 
-			// save
-			pet.save(function(err) {
-				if (err) {
-					console.error(err);
-					res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
-				} else {
-					res.json(pet);
-				}
-			});
-		});
-	});	
+/**
+ * Get one
+ */
+api.get('/pets/:id', function(req, res) {
+	PetsManager.getPet(req.params.id)
+		.then(successCallback(res),failCallback(res));
+});
+
+/**
+ * Insert
+ */
+api.post('/pets', (req, res, next) => {
+	console.log("post /pets", req.body);
+	const pet = req.body;
+	const validationErrors = Validators.validatePet(pet);
+	if(validationErrors) {
+		return res.status(400).send(validationErrors);
+	}
 	
-	/**
-	 * Delete
-	 */
-	router.route('/pets/:id').delete(function(req, res) {
-		console.log("/pets/" + req.params.id);
-		Pet.findByIdAndRemove(req.params.id, function(err, pet) {
-			if (err) {
-				console.error(err);
-				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
-			} else {
-				res.sendStatus(200);//OK
-			}
-		});
-	});
+	PetsManager.save(pet)
+		.then(successCallback(res),failCallback(res));
+});
+
+/**
+ * Update
+ */
+api.put('/pets/:id', (req, res, next) => {
+	console.log("put /pets/" + req.params.id, req.body);
+	const pet = req.body;
+	const validationErrors = Validators.validatePet(pet);
+	if(validationErrors) {
+		return res.status(400).send(validationErrors);
+	}
 	
-	return router;
-}
+	PetsManager.update(pet)
+		.then(successCallback(res),failCallback(res));
+});	
+
+/**
+ * Get one
+ */
+api.delete('/pets/:id', function(req, res, next) {
+	console.log("delte /pets/" + req.params.id);
+	PetsManager.delete(req.params.id)
+		.then(successCallback(res),failCallback(res));
+});
+	

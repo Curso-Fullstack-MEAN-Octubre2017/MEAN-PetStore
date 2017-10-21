@@ -1,124 +1,102 @@
-const Customer = require('../models/customer');
+const Customer = require('../models/customer.js');
+const CustomersManager = require('../managers/customers-manager.js');
 const Utils = require("../utils/utils.js");
 const Validators = require("../public/app/validation/validators.js");
 
-module.exports = (router) => {
+const successCallback = function(res) { return function(result) { res.json(result) }}
+const failCallback = function(res){ return function(err) {
+	console.error(err);
+	res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
+}};
 
-	/**
-	 * FindAll
-	 */
-	router.get('/customers', function(req, res, next) {
-		var search = {};
-		if(req.query.searchTerm) {
-			var regexp = new RegExp(req.query.searchTerm, "i")
-			search.$or = [{firstName: regexp}, {lastName: regexp}];
+var api = require('express').Router();
+module.exports = api;
+
+/**
+ * FindAll
+ */
+api.get('/customers', function(req, res, next) {
+	var search = {};
+	if(req.query.searchTerm) {
+		var regexp = new RegExp(req.query.searchTerm, "i")
+		search.$or = [{firstName: regexp}, {lastName: regexp}];
+	}
+	console.log("Search customers:", search);
+	
+	CustomersManager.searchCustomers(search)
+		.then(successCallback(res),failCallback(res));
+});
+
+/**
+ * As LabelValue
+ */
+api.get('/customersAsList', function(req, res, next) {
+	console.log("/customersList")
+	Customer.find({}, {firstName: 0}, (err, customers) => {
+		if (err) {
+			console.error(err);
+			res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
+		} else {
+			res.json(Utils.asIdLabelList(customers, "fullNameSort"));
 		}
-		console.log("Search customers:", search);
-		Customer.find(search, (err, customers) => {
-			if (err) {
-				console.error(err);
-				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
-			} else {
-				res.json(customers);
-			}
-		}).sort({'_id' : -1});
-	});
+	})
+	.sort({'lastName' : -1});
+});
+
+
+/**
+ * Get one
+ */
+api.get('/customers/:id', function(req, res) {
+	CustomersManager.getCustomer(req.params.id)
+		.then(successCallback(res),failCallback(res));
+});
+
+/**
+ * Get Customer Pets
+ */
+api.get('/customers/:id/pets', function(req, res) {
+	CustomersManager.getCustomerPets(req.params.id)
+		.then(successCallback(res),failCallback(res));
+});
+
+
+/**
+ * Insert
+ */
+api.post('/customers', (req, res, next) => {
+	console.log("post /customers", req.body);
+	const customer = req.body;
+	const validationErrors = Validators.validateCustomer(customer);
+	if(validationErrors) {
+		return res.status(400).send(validationErrors);
+	}
 	
-	/**
-	 * As LabelValue
-	 */
-	router.get('/customersAsList', function(req, res, next) {
-		console.log("/customersList")
-		Customer.find({}, {firstName: 0}, (err, customers) => {
-			if (err) {
-				console.error(err);
-				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
-			} else {
-				res.json(Utils.asIdLabelList(customers, "fullNameSort"));
-			}
-		})
-		.sort({'lastName' : -1});
-	});
+	CustomersManager.save(customer)
+		.then(successCallback(res),failCallback(res));
+});
 
-
-	/**
-	 * Get one
-	 */
-	router.route('/customers/:id').get(function(req, res) {
-		Customer.findById(req.params.id, function(err, customer) {
-			if (err) {
-				console.error(err);
-				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
-			} else {
-				res.json(customer);
-			}
-		});
-	});
-
-	/**
-	 * Insert
-	 */
-	router.post('/customers', (req, res, next) => {
-		const customer = new Customer(req.body);
-		const validationErrors = Validators.validateCustomer(customer);
-		if(validationErrors) {
-			return res.status(400).send(validationErrors);
-		}
-		customer.save((err) => {
-			if (err) {
-				console.error(err);
-				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
-			} else {
-				res.json(customer);
-			}
-		})
-	});
+/**
+ * Update
+ */
+api.put('/customers/:id', (req, res, next) => {
+	console.log("put /customers/" + req.params.id, req.body);
+	const customer = req.body;
+	const validationErrors = Validators.validateCustomer(customer);
+	if(validationErrors) {
+		return res.status(400).send(validationErrors);
+	}
 	
-	/**
-	 * Update
-	 */
-	router.put('/customers/:id', (req, res, next) => {
-		Customer.findOne({_id : req.params.id }, function(err, customer) {
-			if (err) {
-				return res.send(err);
-			}
+	CustomersManager.update(customer)
+		.then(successCallback(res),failCallback(res));
+});	
 
-			// rellenamos los datos que vienen en la peticion
-			for(prop in req.body){
-				customer[prop] = req.body[prop];
-			}
-			
-			const validationErrors = Validators.validateCustomer(customer);
-			if(validationErrors) {
-				return res.status(400).send(validationErrors);
-			}
+/**
+ * Get one
+ */
+api.delete('/customers/:id', function(req, res, next) {
+	console.log("delte /customers/" + req.params.id);
+	CustomersManager.delete(req.params.id)
+		.then(successCallback(res),failCallback(res));
+});
 
-			// save
-			customer.save(function(err) {
-				if (err) {
-					console.error(err);
-					res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
-				} else {
-					res.json(customer);
-				}
-			});
-		});
-	});	
-	
-	/**
-	 * Get one
-	 */
-	router.route('/customers/:id').delete(function(req, res) {
-		console.log("/customers/" + req.params.id);
-		Customer.findByIdAndRemove(req.params.id, function(err, customer) {
-			if (err) {
-				console.error(err);
-				res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
-			} else {
-				res.sendStatus(200);//OK
-			}
-		});
-	});
-	
-	return router;
-}

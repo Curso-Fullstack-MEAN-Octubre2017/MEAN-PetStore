@@ -5,7 +5,6 @@ var Pet = require('../models/pet');
 var Customer = require('../models/customer');
 
 var moment = require('moment');
-
 var api = require('express').Router();
 
 api.get('/appointments', function(req, res, next) {
@@ -71,29 +70,15 @@ api.get('/appointmentsByDate/:from/:to',  function(req, res, next) {
 
     var searchParams = {};
     searchParams['dateTimeStart'] = {$gte: from, $lt: to};
+    searchParams['status'] = {$gte: 0}
     Appointment.find(searchParams, (err, appointments) => {
 		if (err) {
 			console.error(err);
 			return res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
 		}
 		
-//        var appointmentsByDate = appointments.reduce(function(appointmentsByDate, item){
-//            var date = moment(item.dateTimeStart).format('YYYY-MM-DD');
-//            var time = moment(item.dateTimeStart).format('hh:mm');
-//            if(appointmentsByDate[date] == undefined) {
-//            	appointmentsByDate[date] = {};
-//            }
-//            if(appointmentsByDate[date][time] == undefined) {
-//            	appointmentsByDate[date][time] = item;
-//            }
-//            
-//            return appointmentsByDate;
-//        }, {});
-        
-        var appointmentsByDate = {};
-        for(var i=0; i < appointments.length; i++){
-        	var item = appointments[i];
-            var date = moment(item.dateTimeStart).format('YYYY-MM-DD');
+        var appointmentsByDate = appointments.reduce(function(appointmentsByDate, item){
+            var date = moment(item.dateTimeStart).format('YYYYMMDD');
             var time = moment(item.dateTimeStart).format('hh:mm');
             if(appointmentsByDate[date] == undefined) {
             	appointmentsByDate[date] = {};
@@ -101,8 +86,9 @@ api.get('/appointmentsByDate/:from/:to',  function(req, res, next) {
             if(appointmentsByDate[date][time] == undefined) {
             	appointmentsByDate[date][time] = item;
             }
-        }
-    
+            
+            return appointmentsByDate;
+        }, {});
 		
 		
         res.status(200).send(appointmentsByDate);
