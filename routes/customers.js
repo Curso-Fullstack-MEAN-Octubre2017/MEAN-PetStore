@@ -92,7 +92,7 @@ api.put('/customers/:id', (req, res, next) => {
 });	
 
 /**
- * Get one
+ * 
  */
 api.delete('/customers/:id', function(req, res, next) {
 	console.log("delte /customers/" + req.params.id);

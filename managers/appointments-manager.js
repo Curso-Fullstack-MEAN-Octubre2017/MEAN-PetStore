@@ -3,7 +3,8 @@ const Utils = require("../utils/utils.js");
 const Validators = require("../public/app/validation/validators.js");
 const Q = require("q");
 
-var AppointmentsManager = {}
+var AppointmentsManager = {};
+module.exports = AppointmentsManager;
 
 AppointmentsManager.getAppointment = (id) => {
 	var d = Q.defer();
@@ -142,5 +143,17 @@ AppointmentsManager.delete = (id) => {
 	return d.promise;
 }
 
-
-module.exports = AppointmentsManager;
+AppointmentsManager.delete = (id) => {
+	var d = Q.defer();	
+	
+	Appointment.findByIdAndRemove(id, function(err, appointment) {
+		if (err) {
+			console.error(err);
+			d.reject(err);
+		} else {
+			d.resolve(0);
+		}
+	});	
+	
+	return d.promise;
+}

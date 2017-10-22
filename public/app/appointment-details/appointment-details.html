@@ -1,0 +1,17 @@
+<div ng-controller="AppointmentController">
+	<h2>Appointment {{appointment._id}}</h2>
+	<form action="">
+		<input type="hidden" ng-model="appointment._id" />
+		<input type="hidden" ng-model="appointment.__v" />
+		Hora Inicio: <quick-datepicker ng-model="appointment.dateTimeStart" date-format="dd/MM/yyyy hh:mm" disable-timepicker="false"></quick-datepicker><br />
+		Hora Fin: <quick-datepicker ng-model="appointment.dateTimeEnd"  date-format="dd/MM/yyyy hh:mm" disable-timepicker="false"></quick-datepicker><br />
+		Status: <input type="text" ng-model="appointment.status" />	-1: CANCELADA ; 0: PENDIENTE; 1: EN CURSO; 2: TERMINADA<br />
+		Pet: <select ng-model="appointment.pet" ng-options="item._id as item.name for item in petsList">
+    			<option value="">Select Pet</option>
+			   </select><br />
+
+		<input type="button" ng-click="remove()" value="Delete"/>
+		<input type="button" ng-click="submit()" value="Save"/>
+		<input type="button" ng-click="cancel()" value="Cancel"/>
+	</form>
+</div>

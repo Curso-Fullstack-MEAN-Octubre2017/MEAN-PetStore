@@ -9,7 +9,7 @@ angular.module('appointmentsDayList')
             moment.locale("es");
             
             var currentDate = moment($routeParams.date, "YYYYMMDD"); 
-
+            $scope.currentDate = currentDate.format("YYYYMMDD");
 
             $scope.hourSlots = [];
 

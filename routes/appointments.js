@@ -3,9 +3,18 @@
 var Appointment = require('../models/appointment');
 var Pet = require('../models/pet');
 var Customer = require('../models/customer');
+const AppointmentsManager = require('../managers/appointments-manager.js');
 
 var moment = require('moment');
+
+const successCallback = function(res) { return function(result) { res.json(result) }}
+const failCallback = function(res){ return function(err) {
+	console.error(err);
+	res.sendStatus(500);//KO (TODO: elegir un codigo mas explicito)
+}};
+
 var api = require('express').Router();
+module.exports = api;
 
 api.get('/appointments', function(req, res, next) {
 	console.log("Search Appointment:");
@@ -109,7 +118,43 @@ api.get('/appointmentsByDate/:from/:to',  function(req, res, next) {
 });
 
 
-api.post('/appointments',  function(req, res, next) {});
-api.put('/appointments/:id',  function(req, res, next) {});
+/**
+ * Insert
+ */
+api.post('/appointments', (req, res, next) => {
+	console.log("post /appointments", req.body);
+	const appointment = req.body;
+//	const validationErrors = Validators.validateAppointment(appointment);
+//	if(validationErrors) {
+//		return res.status(400).send(validationErrors);
+//	}
+	
+	AppointmentsManager.save(appointment)
+		.then(successCallback(res),failCallback(res));
+});
 
-module.exports = api;
+/**
+ * Update
+ */
+api.put('/appointments/:id', (req, res, next) => {
+	console.log("put /appointments/" + req.params.id, req.body);
+	const appointment = req.body;
+//	const validationErrors = Validators.validateAppointment(appointment);
+//	if(validationErrors) {
+//		return res.status(400).send(validationErrors);
+//	}
+	
+	AppointmentsManager.update(appointment)
+		.then(successCallback(res),failCallback(res));
+});
+
+/**
+ * 
+ */
+api.delete('/appointments/:id', function(req, res, next) {
+	console.log("delte /appointments/" + req.params.id);
+	AppointmentsManager.delete(req.params.id)
+		.then(successCallback(res),failCallback(res));
+});
+
+
