@@ -23,11 +23,13 @@
 	<link rel="stylesheet" href="/javascripts/ng-quick-date/ng-quick-date-plus-default-theme.css">
 	
 	<script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.11.1/validate.min.js"></script>
-	<script src="/app/validation/validators.js"></script>
 	
 	<script src="/app/app.module.js"></script>
 	<script src="/app/app.config.js"></script>
 	
+
+	<script src="/app/validation/validators.js"></script>
+	<script src="/app/navigation-module/navigation-module.component.js"></script>
 	<script src="/app/customerList-module/customerList-module.component.js"></script>
 	<script src="/app/customer-module/customer-module.component.js"></script>
 	<script src="/app/petList-module/petList-module.component.js"></script>
@@ -39,10 +41,8 @@
 	
 </head>
 <body>
-	<a href="/">Home</a><br />
-	<a ng-href='customers'>Customer List</a> | <a ng-href='customers/new'>New Customer</a> |
-    <a ng-href='pets'>Pet List</a> | <a ng-href='pets/new'>New Pet</a>	|
-    <a ng-href="appointments-calendar">Calendario</a>
+
+	<navigation-module></navigation-module>
     
 	<div>
 		<div ng-view></div>

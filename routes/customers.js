@@ -23,6 +23,9 @@ api.get('/customers', function(req, res, next) {
 	}
 	console.log("Search customers:", search);
 	
+//	var waitTill = new Date(new Date().getTime() + 1 /* seconds */ * 1000);
+//	while(waitTill > new Date()){}
+	
 	CustomersManager.searchCustomers(search)
 		.then(successCallback(res),failCallback(res));
 });
