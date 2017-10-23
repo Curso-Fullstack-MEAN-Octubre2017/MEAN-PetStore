@@ -9,14 +9,12 @@ angular.module('customerModule')
             console.log("Incializando customer-module")
         }
     })
-    .controller('CustomerController',function($scope, $http, $location, $routeParams){
+    .controller('CustomerController',function($scope, $http, $location, $routeParams, customersService){
         console.log("CustomerController");
     	$scope.customer = {};
     	var id = $routeParams.id;
     	if(id != 'new') {
-        	$http.get("/api/customers/" + id).then(function(response) {
-        		$scope.customer = response.data;
-        	});
+    		$scope.customer = customersService.get({id: id});
     	}
     	
     	$scope.submit = function() {
@@ -25,24 +23,24 @@ angular.module('customerModule')
     		if(validationErrors) {
     			return alert(JSON.stringify(validationErrors));
     		}    		
+    		
+    		var errorCallback = function(response) { console.log("Error", response);}
+
     		var isNew = !$scope.customer._id;
-    		var saveOrUpdate = isNew? $http.post : $http.put;
-    		var url = "/api/customers" + (isNew? "" : "/" + $scope.customer._id);
-    		saveOrUpdate(url, $scope.customer).then(
-				function(response) {
-					$scope.customer = response.data;
-					console.log(response);
-					if(isNew) {
-						$location.path("customers");
-					}
-				}, function(response) {
-					console.log("Error", response);
-				});
+    		if(isNew) {
+    			customersService.save({}, $scope.customer, function(customer) {
+    				$location.path("customers");
+    			}, errorCallback);
+    		} else {
+    			customersService.update({id: $scope.customer._id}, $scope.customer, function(customer) {
+    				$scope.customer = customer;
+    			}, errorCallback);    			
+    		}
 		}
     	
     	$scope.remove = function() {
     		if(confirm("Esta seguro que desea borrar este registro")) {
-				$http.delete("/api/customers/" + $scope.customer._id).then(
+    			customersService.delete({id: $scope.customer._id},
 					function() {
 						alert("Borrado OK");
 						$location.path("customers");

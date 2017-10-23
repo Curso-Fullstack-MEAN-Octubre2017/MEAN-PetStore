@@ -3,6 +3,9 @@
  */
 const Customer = require('../models/customer');
 
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/petStore', { useMongoClient: true });
+
 var sampleCustomer = {
 		"dni": "rrrrrr",
 		"firstName": "pedro",
