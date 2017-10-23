@@ -12,6 +12,7 @@ angular.module('appointmentsDayList')
             $scope.currentDate = currentDate.format("YYYYMMDD");
 
             $scope.hourSlots = [];
+            $scope.hello = {message: "hola" };
 
             
             appointmentsService.getAppointmentsForDate(currentDate).then(function(appointments){
@@ -31,6 +32,20 @@ angular.module('appointmentsDayList')
                 alert(id);  
             };
         }
-    });
+    })
+  .directive('myMessage', function() {
+    return {
+      link: function(scope, element) {
+        scope.$watch('hello.message', function(newVal, oldVal) {
+          //if(oldVal !== newVal) return;
+
+          ReactDOM.render(
+        		  Hello({name: scope.hello.message}), // componente + props
+        		  document.getElementById('output') // element
+          );
+        });
+      }
+    }
+  })   
 
     
