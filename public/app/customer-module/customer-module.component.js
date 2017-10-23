@@ -18,7 +18,7 @@ angular.module('customerModule')
     	}
     	
     	$scope.submit = function() {
-    		console.log("Sumit", $scope.customer);
+    		console.log("Submit", $scope.customer);
     		const validationErrors = Validators.validateCustomer($scope.customer);
     		if(validationErrors) {
     			return alert(JSON.stringify(validationErrors));
@@ -29,10 +29,12 @@ angular.module('customerModule')
     		var isNew = !$scope.customer._id;
     		if(isNew) {
     			customersService.save({}, $scope.customer, function(customer) {
+    				$scope.$emit("message:success", {message: "Cliente dado de alta con exito"})
     				$location.path("customers");
     			}, errorCallback);
     		} else {
     			customersService.update({id: $scope.customer._id}, $scope.customer, function(customer) {
+    				$scope.$emit("message:success", {message: "Cliente dado actualizado con exito"})
     				$scope.customer = customer;
     			}, errorCallback);    			
     		}

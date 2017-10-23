@@ -4,7 +4,7 @@ angular.module('navigationModule', []);
 angular.module('navigationModule')
     .component('navigationModule', {
         templateUrl:'/app/navigation-module/navigation-module.html',
-        controller: function($scope, $http) {
+        controller: function($rootScope, $scope, $http) {
             console.log("Incializando navigation-module");
             
             $scope.loading = false;
@@ -20,6 +20,10 @@ angular.module('navigationModule')
             $scope.$on('http:response', onRequestFinish);
             $scope.$on('http:requestError', onRequestFinish);
             $scope.$on('http:responseError', onRequestFinish);
+            
+            $rootScope.$on("message:success", function(event, message) {
+            	alert(message.message);
+            })
         }
     });
 
