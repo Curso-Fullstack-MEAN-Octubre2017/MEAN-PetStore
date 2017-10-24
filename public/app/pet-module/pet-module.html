@@ -4,16 +4,20 @@
 		<input type="hidden" name="dni" ng-model="pet._id" />
 		<input type="hidden" name="dni" ng-model="pet.__v" />
 		
-		name: <input type="text" name="name" ng-model="pet.name" placeholder="name" /><br />
-		birthdate: <quick-datepicker ng-model='pet.birthdate' date-format="dd/MM/yyyy" disable-timepicker="true" placeholder="birthdate"></quick-datepicker><br />
-		chipNumber: <input type="text" name="chipNumber" ng-model="pet.chipNumber" placeholder="chipNumber" /><br />
-		specie: <input type="text" name="dni" ng-model="pet.specie" placeholder="specie" /><br />
-		race: <input type="text" name="race" ng-model="pet.race" placeholder="race" /><br />
-		description: <input type="text" name="description" ng-model="pet.description" placeholder="description" /><br />
-		photoUrl: <input type="text" name="photoUrl" ng-model="pet.photoUrl" placeholder="photoUrl" /><br />
-		owner: <select ng-model="pet.owner" ng-options="item.id as item.label for item in ownersList">
-    			<option value="">Select Owner</option>
-			   </select><br />
+		<label-input-form-group data-label="name" data-model="pet.name" data-placeholder="name" />
+		<form-group-wrapper data-label="birthdate">
+			<quick-datepicker ng-model='pet.birthdate' date-format="dd/MM/yyyy" disable-timepicker="true" placeholder="birthdate"></quick-datepicker>
+		</form-group-wrapper>
+		<label-input-form-group data-label="chipNumber" data-model="pet.chipNumber" data-placeholder="chipNumber" />
+		<label-input-form-group data-label="specie" data-model="pet.specie" data-placeholder="specie" />
+		<label-input-form-group data-label="race" data-model="pet.race" data-placeholder="race" />
+		<label-input-form-group data-label="description" data-model="pet.description" data-placeholder="description" />
+		<label-input-form-group data-label="photoUrl" data-model="pet.photoUrl" data-placeholder="photoUrl" />
+		<form-group-wrapper data-label="owner">
+			   <select ng-model="pet.owner" ng-options="item.id as item.label for item in ownersList">
+    				<option value="">Select Owner</option>
+			   </select>		
+		</form-group-wrapper>
 
 		<input type="button" ng-click="remove()" value="Delete"/>
 		<input type="button" ng-click="submit()" value="Save"/>

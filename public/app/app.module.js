@@ -5,6 +5,7 @@ angular.module('petStore', [
     'ngRoute',
     'ngQuickDate',
     'navigationModule',
+    'customDirectivesModule',
     'customersService',
     'customerListModule',
     'customerModule',
