@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('petStore')
-	.factory('loadingInterceptor', function($rootScope) {
+	.factory('loadingInterceptor', function($rootScope, $q) {
 		var interceptor = {
 			'request': function(config) {
 				console.log("resquest", config.method, config.url);
@@ -16,12 +16,12 @@ angular.module('petStore')
 			'requestError': function(rejection) {
 				console.log("requestError", rejection);
 				$rootScope.$broadcast("http:requestError", rejection);
-				return rejection;
+				return $q.reject(rejection);;
 			},
 			'responseError': function(rejection) {
 				console.log("responseError", rejection);
 				$rootScope.$broadcast("http:responseError", rejection);
-				return rejection;
+				return $q.reject(rejection);;
 			}
 		};
 		return interceptor;
