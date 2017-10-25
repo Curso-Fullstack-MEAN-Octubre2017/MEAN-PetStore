@@ -24,7 +24,9 @@ angular.module('customerModule')
     			return alert(JSON.stringify(validationErrors));
     		}    		
     		
-    		var errorCallback = function(response) { console.log("Error", response);}
+    		var errorCallback = function(response) { 
+    			$scope.$emit("message:error", {message: response.statusText})
+    		}
 
     		var isNew = !$scope.customer._id;
     		if(isNew) {

@@ -90,8 +90,14 @@ api.put('/customers/:id', (req, res, next) => {
 		return res.status(400).send(validationErrors);
 	}
 	
-	CustomersManager.update(customer)
-		.then(successCallback(res),failCallback(res));
+	CustomersManager.update(customer).then(
+			function(result) { 
+				if(result == null){
+					return res.status(412).send({message: "ConcurrentEditionException"});
+				}
+				res.json(result); 
+			}
+			,failCallback(res));
 });	
 
 /**

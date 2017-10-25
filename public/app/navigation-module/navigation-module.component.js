@@ -24,6 +24,9 @@ angular.module('navigationModule')
             $rootScope.$on("message:success", function(event, message) {
             	alert(message.message);
             })
+            $rootScope.$on("message:error", function(event, message) {
+            	alert(message.message);
+            })            
         }
     });
 
