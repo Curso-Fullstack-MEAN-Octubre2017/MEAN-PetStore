@@ -25,6 +25,9 @@ angular.module('customerModule')
     		}    		
     		
     		var errorCallback = function(response) { 
+    			if(response.status == 412) {
+    				alert("Edicion Concurrente")
+    			}
     			$scope.$emit("message:error", {message: response.statusText})
     		}
 

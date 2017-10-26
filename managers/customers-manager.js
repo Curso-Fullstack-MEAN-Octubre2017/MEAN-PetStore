@@ -73,11 +73,11 @@ CustomersManager.update = (json) => {
 	var d = Q.defer();	
 	
 	var v = json.__v;
-	delete json.__v; // evitamos el conflicto entre $set e $inc
+	json.__v++;
 	
 	Customer.findOneAndUpdate(
 			{_id: json._id, __v: v}, // find current version
-			{$set: json, $inc: { __v: 1 }}, // update and increment version
+			json, // update
 			{new : true}, // return inserted version
 	function(err, customer) {
 		console.log("Updated Customer:", customer);
