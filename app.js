@@ -12,6 +12,8 @@ mongoose.connect('mongodb://localhost/petStore', { useMongoClient: true });
 
 var app = express();
 
+app.io = require('socket.io')();
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -30,6 +32,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', require('./routes/customers'));
 app.use('/api', require('./routes/pets'));
 app.use('/api', require('./routes/appointments'));
+
+require("./routes/socketio-manager.js")(app.io);
 
 //Front End: SPA with Angular + HTML5 urls
 app.all("*", (req, res) => {
@@ -50,7 +54,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // log the error
-  console.log(err)
+  console.error(err)
   res.sendStatus(err.status || 500);
 });
 
