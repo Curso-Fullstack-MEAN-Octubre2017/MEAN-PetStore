@@ -3,7 +3,7 @@
 angular.module('appointmentsDayList', []);
 angular.module('appointmentsDayList')
     .component('appointmentsDayList', {
-        templateUrl:'/app/appointments-day-list/appointments-day-list.html',
+        templateUrl:'/app/appointments/appointments-day-list/appointments-day-list.html',
         controller: function($scope, $http, $routeParams, appointmentsService) {
             console.log("Incializando appointments day-list")
             moment.locale("es");

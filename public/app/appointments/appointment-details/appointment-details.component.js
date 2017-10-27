@@ -4,7 +4,7 @@ angular.module('appointmentDetailsModule', []);
 
 angular.module('appointmentDetailsModule')
     .component('appointmentDetailsModule', {
-        templateUrl:'/app/appointment-details/appointment-details.html',
+        templateUrl:'/app/appointments/appointment-details/appointment-details.html',
         controller: function($scope, $http) {
             console.log("Incializando appointment-details")
         }

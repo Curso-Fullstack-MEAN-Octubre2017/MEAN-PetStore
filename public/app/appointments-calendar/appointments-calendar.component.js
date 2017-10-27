@@ -36,7 +36,7 @@ angular.module('appointmentsCalendar')
             });
             
             $scope.openDayAppointments = (date) => {
-                $location.path("/appointments-day-list/" + moment(date).format('YYYYMMDD'))
+                $location.path("/appointments/" + moment(date).format('YYYYMMDD'))
             };
         }
     });
