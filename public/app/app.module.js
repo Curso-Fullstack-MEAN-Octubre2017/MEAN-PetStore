@@ -4,6 +4,7 @@ angular.module('petStore', [
     'ngResource',
     'ngRoute',
     'ngQuickDate',
+    'petStoreApplicationShell',
     'navigationModule',
     'customDirectivesModule',
     'customersService',

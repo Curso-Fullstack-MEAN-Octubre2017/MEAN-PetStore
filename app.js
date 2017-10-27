@@ -29,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //const customers = require('./routes/customers')(router);
 //const pets = require('./routes/pets')(router);
 
+app.use('/api', require('./routes/users'));
 app.use('/api', require('./routes/customers'));
 app.use('/api', require('./routes/pets'));
 app.use('/api', require('./routes/appointments'));

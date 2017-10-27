@@ -1,4 +1,5 @@
-<div id="loading-message" ng-show="loading">Loading...</div>    
+<div id="loading-message" ng-show="loading">Loading...</div>
+<div>Logged User: {{$root.userPreferences.username}}, Roles: {{$root.userPreferences.roles.join(', ')}}</div>
 <div>
 	<a href="/">Home</a> | 
 	<a ng-href='customers'>Customer List</a> | <a ng-href='customers/new'>New Customer</a> |

@@ -29,6 +29,7 @@
 	
 
 	<script src="/app/validation/validators.js"></script>
+	<script src="/app/shell/PetStoreApplicationShell.js"></script>
 	<script src="/app/directives/form-directives.js"></script>
 	<script src="/app/navigation-module/navigation-module.component.js"></script>
 	<script src="/app/services/customers-service.js"></script>
@@ -44,11 +45,7 @@
 </head>
 <body>
 
-	<navigation-module></navigation-module>
-    
-	<div>
-		<div ng-view></div>
-	</div>
+	<pet-store-application-shell></pet-store-application-shell>
 
 </body>
 </html>
