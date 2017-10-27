@@ -12,7 +12,7 @@ var SocketIoManager = function(io) {
 	     */
 	    socket.on("join", (msg) => {
 	    	socket.username = msg;
-	    	io.emit('chat:message', { user: "Servidor", "Hola " + socket.username + ". Bienvenido!"});
+	    	io.emit('chat:message', { user: "Servidor", msg: "Hola " + socket.username + ". Bienvenido!"});
 	    });
 	    
 	    /**
