@@ -100,7 +100,7 @@ api.get('/appointmentsByDate/:from/:to',  function(req, res, next) {
         }, {});
 		
 		
-        res.status(200).send(appointmentsByDate);
+        res.json(appointmentsByDate);
 
     }).populate(
         {
