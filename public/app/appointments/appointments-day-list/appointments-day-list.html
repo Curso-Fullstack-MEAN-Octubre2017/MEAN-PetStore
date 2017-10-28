@@ -1,4 +1,4 @@
-<div>This is the timetable</div>
+<h2>Horarios de Citas</h2>
 
 <div class="timetable">
 	<table style="width: 400px;">
@@ -11,8 +11,8 @@
 			<td>{{hourSlot.hour}}</td> 
 			<td><span ng-show="hourSlot.appointment">Pet: {{hourSlot.appointment.pet.name}}, Status: {{hourSlot.appointment.status}}<span></td>
 			<td>
-				<a ng-show="hourSlot.appointment" href="/appointments/{{hourSlot.appointment._id}}">Editar</a>
-				<a ng-show="!hourSlot.appointment" href="/appointments/add/{{currentDate + '-' + hourSlot.hour}}">Añadir</a>
+				<a ng-show="hourSlot.appointment" ng-click="showAppointment(hourSlot.appointment._id)">Editar</a>
+				<a ng-show="!hourSlot.appointment" ng-click="addAppointment(currentDate + '-' + hourSlot.hour)">Añadir</a>
 			</t>
 		</tr>
 </div>

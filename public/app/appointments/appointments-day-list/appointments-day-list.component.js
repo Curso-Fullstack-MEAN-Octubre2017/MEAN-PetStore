@@ -27,8 +27,14 @@ angular.module('appointmentsDayList')
                 }            	
             });
             
-            $scope.openAppointment = (id) => {
-                alert(id);  
+            $scope.showAppointment = (id) => {
+            	console.log("emiting appointments:showAppointmentClick");
+                $scope.$emit("appointments:showAppointmentClick", {id: id}); 
+            };
+            
+            $scope.addAppointment = (datetime) => {
+            	console.log("emiting appointments:addAppointmentClick");
+                $scope.$emit("appointments:addAppointmentClick", {datetime: moment(datetime, 'YYYYMMDD-hh:mm').toDate()}); 
             };
         }
     });

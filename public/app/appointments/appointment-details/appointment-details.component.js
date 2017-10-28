@@ -9,24 +9,29 @@ angular.module('appointmentDetailsModule')
             console.log("Incializando appointment-details")
         }
     })
-    .controller('AppointmentController',function($scope, $http, $location, $routeParams, appointmentsService){
+    .controller('AppointmentController',function($scope, $http, appointmentsService){
         console.log("AppointmentController");
-    	$scope.appointment = {};
-    	var id = $routeParams.id;
-    	if(id) {
-    		appointmentsService.getAppointment(id).then(function(response) {
-        		$scope.appointment = response;
-        	});
-    	} else {
-    		console.log("New Appointment", $routeParams.datetime);
-    		$scope.appointment.dateTimeStart = moment($routeParams.datetime, 'YYYYMMDD-hh:mm').toDate();
-    		$scope.appointment.dateTimeEnd = moment($scope.appointment.dateTimeStart).add(30,'m').toDate();
-    		$scope.appointment.status = 0;
-    	}
+    	$scope.appointment = null;
     	
     	$http.get("/api/pets").then(function(response) {
     		$scope.petsList = response.data;
     	});
+    	
+        $scope.$on("appointments:showAppointment", (event, data) => {
+        	console.log("on appointments:showAppointment", data);
+    		appointmentsService.getAppointment(data.id).then(function(response) {
+        		$scope.appointment = response;
+        	});
+        });
+        
+        $scope.$on("appointments:addAppointment", (event, data) => {
+        	console.log("on appointments:addAppointment", data);
+    		console.log("New Appointment", data.datetime);
+    		$scope.appointment = {};
+    		$scope.appointment.dateTimeStart = data.datetime;
+    		$scope.appointment.dateTimeEnd = moment($scope.appointment.dateTimeStart).add(30,'m').toDate();
+    		$scope.appointment.status = 0;
+        });      	
     	
     	$scope.submit = function() {
     		console.log("Save Appointment", $scope.appointment);
@@ -34,7 +39,7 @@ angular.module('appointmentDetailsModule')
     				function(response) {
     					$scope.appointment = response;
     					var date = moment($scope.appointment.dateTimeStart).format("YYYYMMDD")
-    					$location.path("/appointments-day-list/" + date);
+    					$scope.$emit("appointments:appointmentSaved", $scope.appointment)
     				}, function(response) {
     					console.log("Error", response);
     				});
@@ -45,7 +50,8 @@ angular.module('appointmentDetailsModule')
     			var date = moment($scope.appointment.dateTimeStart).format("YYYYMMDD");
 				appointmentsService.deleteAppointment($scope.appointment).then(
 					function() {
-						$location.path("/appointments-day-list/" + date);
+						$scope.appointment = null;
+						$scope.$emit("appointments:appointmentDeleted");
 					}, function() {
 						alert("Borrado Failed!!");
 					});
@@ -53,7 +59,7 @@ angular.module('appointmentDetailsModule')
     	};
     	
     	$scope.cancel = function() {
-    		history.back();
+    		$scope.appointment = null;
     	};
     })
     ;
