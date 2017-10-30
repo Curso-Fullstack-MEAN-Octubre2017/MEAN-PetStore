@@ -4,22 +4,22 @@ angular.module('petStore')
 	.factory('loadingInterceptor', function($rootScope, $q) {
 		var interceptor = {
 			'request': function(config) {
-				console.log("resquest", config.method, config.url);
+				// console.log("resquest", config.method, config.url);
 				$rootScope.$broadcast("http:request", config);
 				return config;
 			},
 			'response': function(response) {
-				console.log("response", response.status, response.statusText);
+				// console.log("response", response.status, response.statusText);
 				$rootScope.$broadcast("http:response", response);
 				return response;
 			},
 			'requestError': function(rejection) {
-				console.log("requestError", rejection);
+				// console.log("requestError", rejection);
 				$rootScope.$broadcast("http:requestError", rejection);
 				return $q.reject(rejection);;
 			},
 			'responseError': function(rejection) {
-				console.log("responseError", rejection);
+				// console.log("responseError", rejection);
 				$rootScope.$broadcast("http:responseError", rejection);
 				return $q.reject(rejection);;
 			}
