@@ -64,18 +64,18 @@ Esta es una lista completa de los servicios web REST publicados con ExpressJs
 
 | Metodo  |  URL  |  Body  |  Response |
 |---|---|---|---|
-|  GET  |  api/customers  |  <vacio>  |  res.json([customers]) |
-|  GET  |  api/customers/:id  |  <vacio>  |  res.json(customer) |
-|  GET  |  api/customers/:id/pets  |  <vacio>  |  res.json(pets) |
+|  GET  |  api/customers  |  << vacio >>  |  res.json([customers]) |
+|  GET  |  api/customers/:id  |  << vacio >>  |  res.json(customer) |
+|  GET  |  api/customers/:id/pets  |  << vacio >>  |  res.json(pets) |
 |  POST  |  api/customers  |  {JSON}  |  res.json(createdCustomer) |
 |  PUT  |  api/customers/:id  |  {JSON}  |  res.json(updatedCustomer) |
-|  GET  |  api/pets/:id  |  <vacio>  |  res.json(customerPets) |
+|  GET  |  api/pets/:id  |  << vacio >>  |  res.json(customerPets) |
 |  POST  |  api/pets  |  {JSON}  |  res.json(createdPet) |
 |  PUT  |  api/pets/:id  |  {JSON}  |  res.json(updatedPet) |
 |  DELETE  |  api/pets/:id  |  {JSON}  |  res.sendStatus(200); //OK |
-|  GET  |  api/appointments  |  <vacio>  |  res.json([appointments]) |
-|  GET  |  api/appointments/:id  |  <vacio>  |  res.json(appointment) |
-|  GET  |  api/appointments/:fromdate/:todate  |  <vacio>  |  res.json(appointments) |
+|  GET  |  api/appointments  |  << vacio >>  |  res.json([appointments]) |
+|  GET  |  api/appointments/:id  |  << vacio >>  |  res.json(appointment) |
+|  GET  |  api/appointments/:fromdate/:todate  |  << vacio >>  |  res.json(appointments) |
 |  POST  |  api/appointments  |  {JSON}  |  res.json(createdAppointment) |
 |  PUT  |  api/appointments/:id  |  {JSON}  |  res.json(updateAppointment) |
 
