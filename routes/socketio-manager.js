@@ -4,30 +4,27 @@ var SocketIoManager = function(io) {
 
 	io.on('connection', function (socket) {
 	    console.log('Un cliente se ha conectado');
-	    
-	    socket.emit('connected', { user: "Servidor", msg: 'Conexion establecida (emit)'});
+	    socket.emit('log:message', 'Una conexion establecida');
 	    
 	    /**
 	     * 
 	     */
 	    socket.on("join", (msg) => {
 	    	socket.username = msg;
-	    	io.emit('chat:message', { user: "Servidor", msg: "Hola " + socket.username + ". Bienvenido!"});
+	    	socket.emit('log:message', "El usuario " + socket.username + " se ha conectado.");
 	    });
-	    
+    
 	    /**
 	     * 
 	     */
-	    socket.on('chat:message', function(msg){
-	    	socket.emit('chat:message', {
-	    		user: socket.username,
-	    		msg: msg,
-	    	});
+	    socket.on('send:event', function(event){
+	    	console.log("Recibiendo send:event", event);
+	    	io.emit('log:message', "Se recibido un evento '" + event.eventName + "' con datos: " + event.eventData);
+	    	io.emit(event.eventName, event.eventData);
 	    });
 	});
+	
 
 }
-
-
 
 module.exports = SocketIoManager;

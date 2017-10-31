@@ -12,6 +12,13 @@ angular.module('appointmentsModule')
         	var currentDate = moment($routeParams.date, "YYYYMMDD"); 
             $scope.currentDate = currentDate.format("YYYYMMDD");
 
+            /* prueba de socketio */
+    		var socket = io.connect();
+    		socket.on('appointments:evento1', function(data) {
+    			console.log("Recibido el evento appointments:evento1", data);
+    		})            
+
+    		
             $scope.$on("appointments:showAppointmentClick", (event, data) => {
             	console.log("broadcasting appointments:showAppointment", data);
             	$scope.$broadcast("appointments:showAppointment", data); 
