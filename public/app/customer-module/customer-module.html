@@ -1,14 +1,13 @@
 <div ng-controller="CustomerController">
 	<h2>Customer {{customer._id}}</h2>
 	<form action="">
-		<input type="hidden" name="dni" ng-model="customer._id" />
-		<input type="hidden" name="dni" ng-model="customer.__v" />
-		dni: <input type="text" name="dni" ng-model="customer.dni" placeholder="dni" /><br />
-		firstName: <input type="text" name="firstName" ng-model="customer.firstName" placeholder="firstName" /><br />
-		lastName: <input type="text" name="lastName" ng-model="customer.lastName" placeholder="lastName" /><br />
-		phone: <input type="text" name="phone" ng-model="customer.phone" placeholder="phone" /><br />
-		email: <input type="text" name="email" ng-model="customer.email" placeholder="email" /><br />
-		note: <input type="text" name="note" ng-model="customer.note" placeholder="note" /><br />
+
+		<label-input-form-group data-label="dni" data-model="customer.dni" data-placeholder="dni" />
+		<label-input-form-group data-label="firstName" data-model="customer.firstName" data-placeholder="firstName" />
+		<label-input-form-group data-label="lastName" data-model="customer.lastName" data-placeholder="lastName" />
+		<label-input-form-group data-label="phone" data-model="customer.phone" data-placeholder="phone" />
+		<label-input-form-group data-label="email" data-model="customer.email" data-placeholder="email" />
+		<label-input-form-group data-label="note" data-model="customer.note" data-placeholder="note" />
 
 		<input type="button" ng-click="remove()" value="Delete"/>
 		<input type="button" ng-click="submit()" value="Save"/>
