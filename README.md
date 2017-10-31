@@ -6,6 +6,16 @@ Se trata de una aplicacion para gestionar las citas a una imaginaria clinica vet
 
 Utilizaremos la pila MEAN para implementar la gestion de Clientes/Mascotas y dar de alta Citas en un Calendario.
 
+# Instalación
+
+```bash
+git clone https://github.com/Curso-Fullstack-MEAN-Octubre2017/MEAN-PetStore.git
+cd MEAN-PetStore
+npm install
+npm start
+
+```
+
 
 # Arquitectura Mean: Mongodb + ExpressJs + AngularJs + NodeJs
 
