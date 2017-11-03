@@ -72,7 +72,7 @@ Esta es una lista completa de los servicios web REST publicados con ExpressJs
 |  GET  |  api/pets/:id  |  << vacio >>  |  res.json(customerPets) |
 |  POST  |  api/pets  |  {JSON}  |  res.json(createdPet) |
 |  PUT  |  api/pets/:id  |  {JSON}  |  res.json(updatedPet) |
-|  DELETE  |  api/pets/:id  |  {JSON}  |  res.sendStatus(200); //OK |
+|  DELETE  |  api/pets/:id  |  << vacio >>  |  res.sendStatus(200); //OK |
 |  GET  |  api/appointments  |  << vacio >>  |  res.json([appointments]) |
 |  GET  |  api/appointments/:id  |  << vacio >>  |  res.json(appointment) |
 |  GET  |  api/appointments/:fromdate/:todate  |  << vacio >>  |  res.json(appointments) |
